@@ -1,5 +1,5 @@
 package controladores;
 
-public class VendaController {
+public class AdmControlador {
     
 }
