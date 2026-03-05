@@ -18,7 +18,7 @@ public class Cliente {
         this.ingressosAdquiridos = 0;
     }
 
-    public int GetIdade() {
+    public int getIdade() {
         LocalDate hoje = LocalDate.now();
         return Period.between(nascimento, hoje).getYears();
     }

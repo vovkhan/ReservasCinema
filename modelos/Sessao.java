@@ -37,19 +37,23 @@ public class Sessao {
     public void setEstado(String estado){
         this.estado = estado;
     }
-    public void Horario(LocalDateTime horario){
+    public void setHorario(LocalDateTime horario){
         this.horario = horario;
     }
 
-    public void islugarVago(int linha, int coluna){
-        if(sala.isLugarVago(linha, coluna)){
-            sala.reservarLugar(linha, coluna);
-            this.estado = "Ocupada";
-        } else {
-            System.out.println("Lugar já ocupado.");
-        }
+    public boolean isLugarVago(int linha, int coluna){
+        return sala.isLugarVago(linha, coluna);
     }
 
-    
+    public void reservarLugar(int linha, int coluna){
+        if(isLugarVago(linha, coluna)){
+            sala.reservarLugar(linha, coluna);
+        
+        }else{
+            throw new IllegalArgumentException("Erro: Lugar já foi reservado. Por favor, escolha outro lugar.");
+        }
+    }
     
 }
+
+
