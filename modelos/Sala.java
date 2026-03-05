@@ -28,6 +28,15 @@ public class Sala {
         this.lugares[linha][coluna] = false;
     }
 
+    public int getQtdLinhas(){
+        return lugares.length;
+    }
+
+    public int getQtdColunas(){
+        return lugares[0].length;
+    }
+
+    
     
 
 
