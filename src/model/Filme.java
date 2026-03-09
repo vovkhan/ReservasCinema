@@ -1,7 +1,7 @@
-package modelos;
+package model;
 
 public class Filme {
-    
+
     private String titulo;
     private String genero;
     private int duracao;

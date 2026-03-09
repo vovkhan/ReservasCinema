@@ -1,4 +1,4 @@
-package modelos;
+package model;
 
 
 public abstract class Usuario {
@@ -14,7 +14,7 @@ public abstract class Usuario {
 
     public String getMatricula(){
         return matricula;
-    
+
     }
 
     public String getSenha(){
@@ -24,5 +24,5 @@ public abstract class Usuario {
     public String getNome(){
         return nome;
     }
-    
+
 }

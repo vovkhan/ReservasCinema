@@ -1,4 +1,4 @@
-package modelos;
+package model;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -43,5 +43,5 @@ public class Cliente {
     public int getIngressosAdquiridos() {
         return ingressosAdquiridos;
     }
-    
+
 }

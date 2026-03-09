@@ -1,4 +1,4 @@
-package modelos;
+package model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,35 +13,35 @@ public class Reserva {
     private LocalDateTime dataEmissao;
     private double valorTotal;
 
-    
+
     public Reserva(Sessao sessao, Cliente cliente, List<String> assentosReservados, double valorTotalCalculado) {
-        
-        this.idTicket = UUID.randomUUID().toString().substring(0, 8).toUpperCase(); 
+
+        this.idTicket = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         this.sessao = sessao;
         this.cliente = cliente;
         this.assentosReservados = assentosReservados;
         this.dataEmissao = LocalDateTime.now();
-        this.valorTotal = valorTotalCalculado; 
+        this.valorTotal = valorTotalCalculado;
     }
 
     // Getters
 
-    public String getIdTicket() { 
-        return idTicket; 
+    public String getIdTicket() {
+        return idTicket;
     }
-    public Sessao getSessao() { 
-        return sessao; 
+    public Sessao getSessao() {
+        return sessao;
     }
-    public Cliente getCliente() { 
-        return cliente; 
+    public Cliente getCliente() {
+        return cliente;
     }
-    public List<String> getAssentosReservados() { 
-        return assentosReservados; 
+    public List<String> getAssentosReservados() {
+        return assentosReservados;
     }
-    public LocalDateTime getDataEmissao() { 
-        return dataEmissao; 
+    public LocalDateTime getDataEmissao() {
+        return dataEmissao;
     }
-    public double getValorTotal() { 
-        return valorTotal; 
+    public double getValorTotal() {
+        return valorTotal;
     }
 }
