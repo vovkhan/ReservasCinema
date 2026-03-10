@@ -1,7 +1,7 @@
 package ui;
 
-import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 import model.Ingresso;
 import model.IngressoInteira;
 import model.IngressoMeia;
@@ -62,43 +62,60 @@ public class Atendimento {
 
             ui.TelaAtendimento.mostrarSala(sessao);
 
-            boolean poltronaValida = false;
-            String poltrona = "";
+            System.out.println();
+            
+            // 👉 LÓGICA DE MÚLTIPLOS INGRESSOS
+            System.out.print("Quantos ingressos deseja comprar para essa sessão? ");
+            int quantidade = sc.nextInt();
+            sc.nextLine(); // Limpa o buffer do enter
 
-            while (!poltronaValida) {
-                // Deixando claro pro atendente que é uma por vez
-                System.out.print("Escolha APENAS UMA poltrona (ex: A0): ");
-                
-                // FAXINA 2: Lê a linha inteira, tira os espaços em branco e já põe maiúsculo
-                poltrona = sc.nextLine().trim().toUpperCase(); 
-
-                // Se o cara digitar "A3, A4", a gente corta e pega só os dois primeiros caracteres "A3"
-                if (poltrona.length() > 2) {
-                    poltrona = poltrona.substring(0, 2); 
-                }
-
-                if (sessao.poltronaOcupada(poltrona)) {
-                    System.out.println("(X) Ops! Essa poltrona já está ocupada. Tente outra.");
-                } else {
-                    poltronaValida = true; 
-                }
+            if (quantidade <= 0) {
+                System.out.println("Quantidade inválida. Voltando ao menu...");
+                return;
             }
 
-            System.out.println("\nTipo de ingresso:");
-            System.out.println("1 - Inteira (R$ 30,00)");
-            System.out.println("2 - Meia (R$ 15,00)");
-            System.out.print("Escolha: ");
-            int tipo = sc.nextInt();
-            sc.nextLine(); // FAXINA 3: Limpa o "Enter" de novo!
+            // O laço vai rodar o número de vezes que o atendente pedir
+            for (int i = 1; i <= quantidade; i++) {
+                System.out.println("\n--- Configurando Ingresso " + i + " de " + quantidade + " ---");
+                
+                boolean poltronaValida = false;
+                String poltrona = "";
 
-            Ingresso ingresso = (tipo == 1) ? new IngressoInteira(poltrona, 30) : new IngressoMeia(poltrona, 30);
+                while (!poltronaValida) {
+                    // Deixando claro pro atendente que é uma por vez
+                    System.out.print("Escolha APENAS UMA poltrona (ex: A0): ");
+                    
+                    // FAXINA 2: Lê a linha inteira, tira os espaços em branco e já põe maiúsculo
+                    poltrona = sc.nextLine().trim().toUpperCase(); 
 
-            // O back-end processa a venda e muda o status da matriz para ocupado
-            service.comprarIngresso(id, ingresso);
-            System.out.println("✅ Venda confirmada com sucesso! O assento " + poltrona + " foi reservado.");
+                    // Se o cara digitar "A3, A4", a gente corta e pega só os dois primeiros caracteres "A3"
+                    if (poltrona.length() > 2) {
+                        poltrona = poltrona.substring(0, 2); 
+                    }
 
-            // 👉 ATUALIZAÇÃO DO MAPA NA TELA:
-            System.out.println("\n--- STATUS ATUALIZADO DO MAPA ---");
+                    if (sessao.poltronaOcupada(poltrona)) {
+                        System.out.println("(X) Ops! Essa poltrona já está ocupada. Tente outra.");
+                    } else {
+                        poltronaValida = true; 
+                    }
+                }
+
+                System.out.println("\nTipo de ingresso:");
+                System.out.println("1 - Inteira (R$ 30,00)");
+                System.out.println("2 - Meia (R$ 15,00)");
+                System.out.print("Escolha: ");
+                int tipo = sc.nextInt();
+                sc.nextLine(); // FAXINA 3: Limpa o "Enter" de novo!
+
+                Ingresso ingresso = (tipo == 1) ? new IngressoInteira(poltrona, 30) : new IngressoMeia(poltrona, 30);
+
+                // O back-end processa a venda e muda o status da matriz para ocupado
+                service.comprarIngresso(id, ingresso);
+                System.out.println(" Venda confirmada com sucesso! O assento " + poltrona + " foi reservado.");
+            }
+
+            // 👉 ATUALIZAÇÃO DO MAPA NA TELA APÓS TODOS OS INGRESSOS SEREM COMPRADOS:
+            System.out.println("\n--- VENDA MÚLTIPLA CONCLUÍDA! STATUS ATUALIZADO DO MAPA ---");
             ui.TelaAtendimento.mostrarSala(sessao);
 
         } catch (java.util.InputMismatchException e) {

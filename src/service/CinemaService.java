@@ -8,7 +8,7 @@ import model.Ingresso;
 import model.Sessao;
 import exception.SessaoNaoEncontradaException;
 
-public class CinemaService {
+public class CinemaService implements IRelatorio {
 
     private List<Sessao> sessoes;
 
@@ -76,7 +76,7 @@ public class CinemaService {
         StringBuilder sb = new StringBuilder();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         
-        sb.append("\n===== RELATÓRIO DO CINEMA LEK =====\n");
+        sb.append("\n===== RELATÓRIO DO CINEMA =====\n");
 
         for (Sessao s : sessoes) {
             sb.append("\nFilme: ").append(s.getFilme().getTitulo());
