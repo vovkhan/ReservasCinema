@@ -1,111 +1,76 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sessao {
 
     private int id;
-    private String filme;
-    private String horario;
+    private Filme filme; // CORREÇÃO: Voltou a ser o objeto Filme
+    private LocalDateTime horario; // CORREÇÃO: Voltou a ser LocalDateTime
     private Sala sala;
-
     private List<Ingresso> ingressos;
 
-    public Sessao(int id, String filme, String horario, Sala sala) {
-
+    public Sessao(int id, Filme filme, LocalDateTime horario, Sala sala) {
         this.id = id;
         this.filme = filme;
         this.horario = horario;
         this.sala = sala;
-
         this.ingressos = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getFilme() {
-        return filme;
-    }
-
-    public String getHorario() {
-        return horario;
-    }
-
-    public Sala getSala() {
-        return sala;
-    }
-
-    public List<Ingresso> getIngressos() {
-        return ingressos;
-    }
+    public int getId() { return id; }
+    public Filme getFilme() { return filme; }
+    public LocalDateTime getHorario() { return horario; }
+    public Sala getSala() { return sala; }
+    public List<Ingresso> getIngressos() { return ingressos; }
 
     public boolean poltronaOcupada(String poltrona) {
-
         for (Ingresso i : ingressos) {
             if (i.getPoltrona().equalsIgnoreCase(poltrona)) {
                 return true;
             }
         }
-
         return false;
     }
 
+    // CORREÇÃO MVC: Removido os prints. Agora ele lança erro ou funciona calado.
     public void venderIngresso(Ingresso ingresso) {
-
         if (poltronaOcupada(ingresso.getPoltrona())) {
-
-            System.out.println("Poltrona já ocupada.");
-            return;
+            throw new IllegalArgumentException("Erro: Poltrona já ocupada.");
         }
-
         sala.reservarPoltrona(ingresso.getPoltrona());
-
         ingressos.add(ingresso);
-
-        System.out.println("Ingresso vendido. Valor: R$ " + ingresso.calcularPreco());
     }
 
     public void cancelarIngresso(String poltrona) {
-
         Ingresso remover = null;
-
         for (Ingresso i : ingressos) {
-
             if (i.getPoltrona().equalsIgnoreCase(poltrona)) {
                 remover = i;
                 break;
             }
         }
-
         if (remover != null) {
-
             sala.cancelarPoltrona(poltrona);
-
             ingressos.remove(remover);
-
-            System.out.println("Reserva cancelada.");
-
         } else {
-
-            System.out.println("Poltrona não encontrada.");
+            throw new IllegalArgumentException("Erro: Poltrona não encontrada.");
         }
     }
 
+    // Pode colar isso no final da classe Sessao.java
+
     public int ingressosVendidos() {
-        return ingressos.size();
+        return ingressos.size(); // Retorna o tamanho da lista de ingressos vendidos
     }
 
     public double faturamento() {
-
         double total = 0;
-
         for (Ingresso i : ingressos) {
-            total += i.calcularPreco();
+            total += i.calcularPreco(); // Soma o valor usando o Polimorfismo (Meia ou Inteira)
         }
-
         return total;
     }
 }

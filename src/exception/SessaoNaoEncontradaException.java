@@ -1,6 +1,6 @@
 package exception;
 
-public class SessaoNaoEncontradaException extends Exception {
+public class SessaoNaoEncontradaException extends CinemaException {
 
     public SessaoNaoEncontradaException() {
         super("Sessão não encontrada.");

@@ -32,7 +32,7 @@ public class Cliente {
         return cpf;
     }
 
-    public String getnome(){
+    public String getNome(){
         return nome;
     }
 

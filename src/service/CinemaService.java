@@ -1,5 +1,6 @@
 package service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,68 +25,65 @@ public class CinemaService {
     }
 
     public Sessao buscarSessao(int id) throws SessaoNaoEncontradaException {
-
         for (Sessao s : sessoes) {
-
             if (s.getId() == id) {
                 return s;
             }
         }
-
-        throw new SessaoNaoEncontradaException();
+        throw new SessaoNaoEncontradaException(); // A nossa exceção customizada brilhando aqui!
     }
 
-    public void comprarIngresso(int idSessao, Ingresso ingresso)
-            throws SessaoNaoEncontradaException {
-
+    public void comprarIngresso(int idSessao, Ingresso ingresso) throws SessaoNaoEncontradaException {
         Sessao sessao = buscarSessao(idSessao);
-
         sessao.venderIngresso(ingresso);
     }
 
-    public void cancelarIngresso(int idSessao, String poltrona)
-            throws SessaoNaoEncontradaException {
-
+    public void cancelarIngresso(int idSessao, String poltrona) throws SessaoNaoEncontradaException {
         Sessao sessao = buscarSessao(idSessao);
-
         sessao.cancelarIngresso(poltrona);
     }
 
-    public void mostrarSessoes() {
-
-        for (Sessao s : sessoes) {
-
-            System.out.println(
-                    "ID: " + s.getId() +
-                            " | Filme: " + s.getFilme() +
-                            " | Horário: " + s.getHorario()
-            );
+    // CORREÇÃO MVC: Retorna uma String pronta em vez de printar na tela.
+    // CORREÇÃO DE TIPO: Puxa getTitulo() e formata a Data.
+    public String mostrarSessoes() {
+       if (sessoes.isEmpty()) {
+            return "Nenhuma sessão disponível.";
         }
+        StringBuilder sb = new StringBuilder();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        sb.append("\n==== Sessões Disponíveis ====\n");
+        for (Sessao s : sessoes) {
+            int capacidadeTotal = s.getSala().getLinhas() * s.getSala().getColunas();
+            int vagasLivres = capacidadeTotal - s.ingressosVendidos();
+
+
+            sb.append("ID: ").append(s.getId()).append("| Filme: ").append(s.getFilme().getTitulo())
+              .append(" | Horário: ").append(s.getHorario().format(fmt))
+              .append(" | Vagas:  ").append(vagasLivres).append("\n");
+
+            
+        }
+        return sb.toString();
     }
+
+    // CORREÇÃO: Usando o removeIf (Muito mais elegante e rápido do que o for que estava antes)
     public boolean removerSessao(int id) {
-
-        for (int i = 0; i < sessoes.size(); i++) {
-
-            if (sessoes.get(i).getId() == id) {
-
-                sessoes.remove(i);
-                return true;
-            }
-        }
-
-        return false;
+        return sessoes.removeIf(s -> s.getId() == id);
     }
 
-    public void relatorio() {
-
-        System.out.println("\n===== RELATÓRIO DO CINEMA =====");
+    // CORREÇÃO MVC: Mesmo esquema, constrói o relatório e devolve pra View printar.
+    public String gerarRelatorio() {
+        StringBuilder sb = new StringBuilder();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        
+        sb.append("\n===== RELATÓRIO DO CINEMA LEK =====\n");
 
         for (Sessao s : sessoes) {
-
-            System.out.println("\nFilme: " + s.getFilme());
-            System.out.println("Horário: " + s.getHorario());
-            System.out.println("Ingressos vendidos: " + s.ingressosVendidos());
-            System.out.println("Faturamento: R$ " + s.faturamento());
+            sb.append("\nFilme: ").append(s.getFilme().getTitulo());
+            sb.append("\nHorário: ").append(s.getHorario().format(fmt));
+            sb.append("\nIngressos vendidos: ").append(s.ingressosVendidos());
+            sb.append(String.format("\nFaturamento: R$ %.2f\n", s.faturamento()));
         }
+        return sb.toString();
     }
 }

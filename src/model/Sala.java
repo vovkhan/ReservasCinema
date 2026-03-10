@@ -12,88 +12,39 @@ public class Sala {
         this.poltronas = new boolean[linhas][colunas];
     }
 
-    public int getLinhas() {
-        return linhas;
-    }
+    public int getLinhas() { return linhas; }
+    public int getColunas() { return colunas; }
+    public boolean[][] getPoltronas() { return poltronas; }
 
-    public int getColunas() {
-        return colunas;
-    }
-
-    public boolean[][] getPoltronas() {
-        return poltronas;
-    }
-
-    // Reserva uma poltrona (ex: A1, B3)
+    // Reserva uma poltrona (ex: A0, B3) - Corrigido Letra=Linha, Numero=Coluna
     public boolean reservarPoltrona(String assento) {
-
-        int coluna = assento.toUpperCase().charAt(0) - 'A';
-        int linha = Integer.parseInt(assento.substring(1)) - 1;
+        int linha = assento.toUpperCase().charAt(0) - 'A';
+        int coluna = Integer.parseInt(assento.substring(1));
 
         if (linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas) {
-
             if (!poltronas[linha][coluna]) {
                 poltronas[linha][coluna] = true;
                 return true;
             }
         }
-
         return false;
     }
 
-    // Cancela uma poltrona
     public boolean cancelarPoltrona(String assento) {
-
-        int coluna = assento.toUpperCase().charAt(0) - 'A';
-        int linha = Integer.parseInt(assento.substring(1)) - 1;
+        int linha = assento.toUpperCase().charAt(0) - 'A';
+        int coluna = Integer.parseInt(assento.substring(1));
 
         if (linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas) {
-
             if (poltronas[linha][coluna]) {
                 poltronas[linha][coluna] = false;
                 return true;
             }
         }
-
         return false;
     }
 
-    // Verifica se a sala está lotada
-    public boolean estaLotada() {
-
-        for (int i = 0; i < linhas; i++) {
-            for (int j = 0; j < colunas; j++) {
-
-                if (!poltronas[i][j]) {
-                    return false;
-                }
-
-            }
-        }
-
-        return true;
-    }
-
-    // Conta quantos assentos estão ocupados
-    public int contarOcupados() {
-
-        int total = 0;
-
-        for (int i = 0; i < linhas; i++) {
-            for (int j = 0; j < colunas; j++) {
-
-                if (poltronas[i][j]) {
-                    total++;
-                }
-
-            }
-        }
-
-        return total;
-    }
-
-    // Conta quantos assentos ainda estão livres
-    public int contarLivres() {
-        return (linhas * colunas) - contarOcupados();
+    // Método que a sua TelaAtendimento usa
+    public boolean isLugarVago(int linha, int coluna) {
+        return !poltronas[linha][coluna];
     }
 }
