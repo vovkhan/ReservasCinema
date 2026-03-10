@@ -8,8 +8,14 @@ import model.Sala;
 import model.Sessao;
 import service.CinemaService;
 
+/*  
+Tela para o gerente. 
+- ele pode criar novas sessões
+- listar as sessões existentes
+- remover sessões e gerar relatórios do cinema.
+O gerente deve ser capaz de inserir os detalhes da sessão, como o filme, horário e sala, e o sistema deve validar as informações antes de criar a sessão.
+*/
 public class TelaGerente {
-
     private CinemaService service;
     private Scanner sc;
 
@@ -22,14 +28,14 @@ public class TelaGerente {
         int opcao;
         do {
             System.out.println("\n===== GERENTE =====");
-            System.out.println("1 - Criar sessão");
-            System.out.println("2 - Listar sessões");
-            System.out.println("3 - Remover sessão");
+            System.out.println("1 - Criar sessao");
+            System.out.println("2 - Listar sessoes");
+            System.out.println("3 - Remover sessao");
             System.out.println("4 - Relatório do cinema");
             System.out.println("0 - Voltar");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
-            sc.nextLine(); // Limpa o buffer depois do nextInt()
+            sc.nextLine(); 
 
             switch (opcao) {
                 case 1: criarSessao(); break;
@@ -42,6 +48,8 @@ public class TelaGerente {
         } while (opcao != 0);
     }
 
+
+    // Logica de criação de sessão.
     private void criarSessao() {
         System.out.print("ID da sessão: ");
         int id = sc.nextInt();
@@ -50,12 +58,12 @@ public class TelaGerente {
         System.out.print("Nome do filme: ");
         String nomeFilme = sc.nextLine();
         
-        // Criando o objeto Filme de verdade para respeitar a POO
         Filme filme = new Filme(nomeFilme, "Não definido", 120, "Livre"); 
 
         System.out.print("Horário (dd/MM/yyyy HH:mm): ");
         String horarioStr = sc.nextLine();
-        // Formatando a String para o objeto LocalDateTime
+
+        
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime horario = LocalDateTime.parse(horarioStr, fmt);
 

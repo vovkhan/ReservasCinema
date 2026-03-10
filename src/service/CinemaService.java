@@ -86,4 +86,9 @@ public class CinemaService implements IRelatorio {
         }
         return sb.toString();
     }
+
+    @Override
+    public String gerarRelatorioVendas() {
+        return gerarRelatorio();
+    }
 }

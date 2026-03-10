@@ -9,7 +9,6 @@ import model.Sessao;
 import service.CinemaService;
 
 public class Atendimento {
-
     private CinemaService service;
     private Scanner sc;
 
@@ -26,7 +25,7 @@ public class Atendimento {
             System.out.println("2 - Cancelar ingresso");
             System.out.println("3 - Mostrar sala");
             System.out.println("4 - Ingressos vendidos");
-            System.out.println("5 - Faturamento da sessão");
+            System.out.println("5 - Faturamento da sessao");
             System.out.println("0 - Voltar");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -40,15 +39,19 @@ public class Atendimento {
                 case 0: System.out.println("Voltando..."); break;
                 default: System.out.println("Opção inválida.");
             }
-        } while (opcao != 0);
+        } 
+        while (opcao != 0);
     }
 
-    private void comprarIngresso() {
-        System.out.println(service.mostrarSessoes());
 
+
+    // Lógica para comprar ingresso, onde o atendente pode escolher a sessão, a quantidade de ingressos, as poltronas e o tipo de ingresso (inteira ou meia). O sistema irá validar se as poltronas estão disponíveis e processar a venda, atualizando o mapa de poltronas da sessão em tempo real.
+    private void comprarIngresso() {
+        
+        System.out.println(service.mostrarSessoes());
         System.out.print("\nDigite o ID da sessão (ou 0 para cancelar): ");
         int id = sc.nextInt();
-        sc.nextLine(); // FAXINA 1: Limpa o "Enter" que ficou solto no teclado
+        sc.nextLine(); 
 
         if (id == 0) return; 
 
@@ -64,38 +67,43 @@ public class Atendimento {
 
             System.out.println();
             
-            // 👉 LÓGICA DE MÚLTIPLOS INGRESSOS
-            System.out.print("Quantos ingressos deseja comprar para essa sessão? ");
+            // MULTIPLOS INGRESSOS
+            System.out.print("Quantos ingressos deseja comprar para essa sessao? ");
             int quantidade = sc.nextInt();
-            sc.nextLine(); // Limpa o buffer do enter
+            sc.nextLine();
 
             if (quantidade <= 0) {
                 System.out.println("Quantidade inválida. Voltando ao menu...");
                 return;
             }
 
-            // O laço vai rodar o número de vezes que o atendente pedir
+            // Repetição que ira rodar em decorrencia da quantidade de ingressos que o cliente deseja comprar
             for (int i = 1; i <= quantidade; i++) {
-                System.out.println("\n--- Configurando Ingresso " + i + " de " + quantidade + " ---");
                 
+                System.out.println("\n--- Configurando Ingresso " + i + " de " + quantidade + " ---");
                 boolean poltronaValida = false;
                 String poltrona = "";
 
                 while (!poltronaValida) {
-                    // Deixando claro pro atendente que é uma por vez
+
+                    
                     System.out.print("Escolha APENAS UMA poltrona (ex: A0): ");
                     
-                    // FAXINA 2: Lê a linha inteira, tira os espaços em branco e já põe maiúsculo
+                    /*  
+                    - Lê a linha inteira, tira os espaços em branco
+                    - Transforma a letra em maiúscula pra evitar erro de digitação tipo "a0" ou " A0 "
+                    */
                     poltrona = sc.nextLine().trim().toUpperCase(); 
 
-                    // Se o cara digitar "A3, A4", a gente corta e pega só os dois primeiros caracteres "A3"
+                    // Logica pra caso o atendente digite mais de 2 caracteres, pegando então os dois primeiros e ignorando o resto que foi selecionado, evitando assim erros de digitação como "A01" ou "A0 " ou " A0
                     if (poltrona.length() > 2) {
                         poltrona = poltrona.substring(0, 2); 
                     }
 
                     if (sessao.poltronaOcupada(poltrona)) {
                         System.out.println("(X) Ops! Essa poltrona já está ocupada. Tente outra.");
-                    } else {
+                    } 
+                    else {
                         poltronaValida = true; 
                     }
                 }
@@ -105,16 +113,16 @@ public class Atendimento {
                 System.out.println("2 - Meia (R$ 15,00)");
                 System.out.print("Escolha: ");
                 int tipo = sc.nextInt();
-                sc.nextLine(); // FAXINA 3: Limpa o "Enter" de novo!
+                sc.nextLine(); 
 
                 Ingresso ingresso = (tipo == 1) ? new IngressoInteira(poltrona, 30) : new IngressoMeia(poltrona, 30);
 
-                // O back-end processa a venda e muda o status da matriz para ocupado
+                // Etapa de processamento de venda do ingresso, e atualização do mapa de poltronas na tela a cada compra realizada.
                 service.comprarIngresso(id, ingresso);
                 System.out.println(" Venda confirmada com sucesso! O assento " + poltrona + " foi reservado.");
             }
 
-            // 👉 ATUALIZAÇÃO DO MAPA NA TELA APÓS TODOS OS INGRESSOS SEREM COMPRADOS:
+            //Atualização do mapa
             System.out.println("\n--- VENDA MÚLTIPLA CONCLUÍDA! STATUS ATUALIZADO DO MAPA ---");
             ui.TelaAtendimento.mostrarSala(sessao);
 
@@ -125,7 +133,9 @@ public class Atendimento {
             System.out.println("Erro durante a venda: " + e.getMessage());
         }
     }
-
+    
+    
+    //logica de cancelamento do ingresso
     private void cancelarIngresso() {
         System.out.print("ID da sessão: ");
         int id = sc.nextInt();
@@ -139,10 +149,13 @@ public class Atendimento {
         }
     }
 
+
+    //Logia de exibição do mapa de poltronas da sessão selecionada, mostrando quais estão ocupadas e quais estão livres. Esta parte em espeficico não sera possivel fazer compra do ingresso, é um mecanismo de checagem apenas
     private void mostrarSala() {
         System.out.println(service.mostrarSessoes());
         System.out.print("Digite o ID da sessão: ");
         int id = sc.nextInt();
+
         try {
             Sessao sessao = service.buscarSessao(id);
             TelaAtendimento.mostrarSala(sessao);
@@ -151,6 +164,8 @@ public class Atendimento {
         }
     }
 
+
+    // Lógica para mostrar quantos ingressos foram vendidos para a sessão selecionada, utilizando o método ingressosVendidos
     private void ingressosVendidos() {
         System.out.print("ID da sessão: ");
         int id = sc.nextInt();
@@ -162,6 +177,8 @@ public class Atendimento {
         }
     }
 
+
+    //Logica de faturamento com cada sessão separada. O método faturamento da classe Sessao irá calcular o valor total arrecadado com a venda de ingressos para aquela sessão específica, somando o valor de cada ingresso vendido.
     private void faturamento() {
         System.out.print("ID da sessão: ");
         int id = sc.nextInt();

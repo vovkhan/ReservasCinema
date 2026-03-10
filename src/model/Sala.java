@@ -12,11 +12,14 @@ public class Sala {
         this.poltronas = new boolean[linhas][colunas];
     }
 
-    public int getLinhas() { return linhas; }
-    public int getColunas() { return colunas; }
-    public boolean[][] getPoltronas() { return poltronas; }
+    public int getLinhas() { 
+        return linhas; }
+    public int getColunas() { 
+        return colunas; }
+    public boolean[][] getPoltronas() { 
+        return poltronas; }
 
-    // Reserva uma poltrona (ex: A0, B3) - Corrigido Letra=Linha, Numero=Coluna
+    // Reserva uma poltrona (ex: A0, B3) - Corrigindo Letra=Linha, Numero=Coluna
     public boolean reservarPoltrona(String assento) {
         int linha = assento.toUpperCase().charAt(0) - 'A';
         int coluna = Integer.parseInt(assento.substring(1));

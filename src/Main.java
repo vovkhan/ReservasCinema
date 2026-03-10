@@ -8,13 +8,13 @@ public class Main {
 
     public static void main(String[] args) {
         
-        // 1. Instanciando o "Cérebro" do sistema (que guarda as listas de tudo)
+        // Instanciando o "Cérebro" do sistema (que guarda as listas de tudo)
         CinemaService service = new CinemaService();
-
+        
         popularBancoDeDadosIncial(service); //sistema com dados iniciais (3 filmes, 3 salas, 3 sessões)
         
-        // 2. Instanciando as telas e passando o mesmo 'service' para ambas
-        // Isso garante que o Atendente veja as sessões que o Gerente criar!
+        // Instanciando as telas e passando o mesmo 'service' para ambas
+        // Isso garante que o Atendente veja as sessões que o Gerente criar
         TelaGerente telaGerente = new TelaGerente(service);
         Atendimento telaAtendimento = new Atendimento(service);
         
@@ -65,7 +65,7 @@ public class Main {
         model.Filme f2 = new model.Filme("Duna: Parte 2", "Ficção Científica", 166, "12 anos");
         model.Filme f3 = new model.Filme("Vingadores o Ultimato", "Ação", 180, "12 anos");
 
-        // 2. Criando as 3 Salas (com tamanhos diferentes para ficar legal)
+        // 2. Criando as 3 Salas (com tamanhos diferentes para ficar legal :). )
         model.Sala s1 = new model.Sala(10, 7); 
         model.Sala s2 = new model.Sala(10, 7); 
         model.Sala s3 = new model.Sala(10, 7); 
