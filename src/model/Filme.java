@@ -1,6 +1,8 @@
 package model;
+import java.io.Serializable;
 
-public class Filme {
+
+public class Filme implements Serializable {
 
     private String titulo;
     private String genero;

@@ -1,5 +1,9 @@
 package service;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +14,33 @@ import exception.SessaoNaoEncontradaException;
 
 public class CinemaService implements IRelatorio {
 
+    private final String ARQUIVO = "banco_cinema.dat";
     private List<Sessao> sessoes;
 
     public CinemaService() {
-        sessoes = new ArrayList<>();
+        carregarDados();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void carregarDados() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ARQUIVO))) {
+            this.sessoes = (List<Sessao>) ois.readObject();
+        } catch (Exception e) {
+            this.sessoes = new ArrayList<>();
+        }
+    }
+
+    private void salvarDados() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARQUIVO))) {
+            oos.writeObject(this.sessoes);
+        } catch (Exception e) {
+            System.out.println("Erro crítico ao salvar o banco de dados: " + e.getMessage());
+        }
     }
 
     public void adicionarSessao(Sessao sessao) {
         sessoes.add(sessao);
+        salvarDados();
     }
 
     public List<Sessao> listarSessoes() {
@@ -36,11 +59,13 @@ public class CinemaService implements IRelatorio {
     public void comprarIngresso(int idSessao, Ingresso ingresso) throws SessaoNaoEncontradaException {
         Sessao sessao = buscarSessao(idSessao);
         sessao.venderIngresso(ingresso);
+        salvarDados();
     }
 
     public void cancelarIngresso(int idSessao, String poltrona) throws SessaoNaoEncontradaException {
         Sessao sessao = buscarSessao(idSessao);
         sessao.cancelarIngresso(poltrona);
+        salvarDados();
     }
 
     // CORREÇÃO MVC: Retorna uma String pronta em vez de printar na tela.
@@ -68,7 +93,11 @@ public class CinemaService implements IRelatorio {
 
     // CORREÇÃO: Usando o removeIf (Muito mais elegante e rápido do que o for que estava antes)
     public boolean removerSessao(int id) {
-        return sessoes.removeIf(s -> s.getId() == id);
+        boolean removido = sessoes.removeIf(s -> s.getId() == id);
+        if (removido) {
+            salvarDados();
+        }
+        return removido;
     }
 
     // CORREÇÃO MVC: Mesmo esquema, constrói o relatório e devolve pra View printar.

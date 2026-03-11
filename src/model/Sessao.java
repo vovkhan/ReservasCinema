@@ -3,17 +3,21 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Sessao {
 
+public class Sessao implements Serializable {
+
+    private static int contador = 1; // Contador para gerar IDs únicos
     private int id;
     private Filme filme; // CORREÇÃO: Voltou a ser o objeto Filme
     private LocalDateTime horario; // CORREÇÃO: Voltou a ser LocalDateTime
     private Sala sala;
     private List<Ingresso> ingressos;
 
-    public Sessao(int id, Filme filme, LocalDateTime horario, Sala sala) {
-        this.id = id;
+    public Sessao(Filme filme, LocalDateTime horario, Sala sala) {
+        
+        this.id = contador++;
         this.filme = filme;
         this.horario = horario;
         this.sala = sala;

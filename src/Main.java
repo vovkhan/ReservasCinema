@@ -28,7 +28,7 @@ public class Main {
         // 3. O Loop de Login
         do {
             System.out.println("\n===== TELA DE ACESSO =====");
-            System.out.println("1 - Entrar como Gerente (Administração)");
+            System.out.println("1 - Entrar como Gerente (Administraçao)");
             System.out.println("2 - Entrar como Atendente (Vendas)");
             System.out.println("0 - Desligar Sistema");
             System.out.print("Digite o seu perfil de acesso: ");
@@ -60,24 +60,6 @@ public class Main {
     }
 
     private static void popularBancoDeDadosIncial(CinemaService service) {
-        // 1. Criando os 3 Filmes
-        model.Filme f1 = new model.Filme("O cavaleiro das trevas", "Ação", 175, "12 anos");
-        model.Filme f2 = new model.Filme("Duna: Parte 2", "Ficção Científica", 166, "12 anos");
-        model.Filme f3 = new model.Filme("Vingadores o Ultimato", "Ação", 180, "12 anos");
-
-        // 2. Criando as 3 Salas (com tamanhos diferentes para ficar legal :). )
-        model.Sala s1 = new model.Sala(10, 7); 
-        model.Sala s2 = new model.Sala(10, 7); 
-        model.Sala s3 = new model.Sala(10, 7); 
-
-        // 3. Criando os 3 Horários (pra hoje e pra amanhã)
-        java.time.LocalDateTime h1 = java.time.LocalDateTime.now().plusHours(14);
-        java.time.LocalDateTime h2 = java.time.LocalDateTime.now().plusHours(14);
-        java.time.LocalDateTime h3 = java.time.LocalDateTime.now().plusDays(3).plusHours(19);
-
-        // 4. Agendando as Sessões no Service
-        service.adicionarSessao(new model.Sessao(1, f1, h1, s1));
-        service.adicionarSessao(new model.Sessao(2, f2, h2, s2));
-        service.adicionarSessao(new model.Sessao(3, f3, h3, s3));
+        
     }
 }

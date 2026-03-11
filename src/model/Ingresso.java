@@ -1,6 +1,8 @@
 package model;
+import java.io.Serializable;
 
-public abstract class Ingresso {
+
+public abstract class Ingresso implements Serializable {
 
     protected String poltrona;
     protected double precoBase;

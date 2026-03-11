@@ -1,6 +1,8 @@
 package model;
+import java.io.Serializable;
 
-public class IngressoInteira extends Ingresso {
+
+public class IngressoInteira extends Ingresso implements Serializable {
 
     public IngressoInteira(String poltrona, double precoBase) {
         super(poltrona, precoBase);

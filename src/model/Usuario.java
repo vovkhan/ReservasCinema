@@ -1,7 +1,9 @@
 package model;
+import java.io.Serializable;
 
 
-public abstract class Usuario {
+
+public abstract class Usuario implements Serializable {
     protected String matricula;
     protected String senha;
     protected String nome;

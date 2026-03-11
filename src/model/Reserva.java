@@ -1,10 +1,12 @@
 package model;
+import java.io.Serializable;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class Reserva {
+public class Reserva implements Serializable {
 
     private String idTicket;
     private Sessao sessao;

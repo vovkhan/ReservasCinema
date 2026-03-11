@@ -43,7 +43,7 @@ public class TelaGerente {
                 case 3: removerSessao(); break;
                 case 4: System.out.println(service.gerarRelatorio()); break; // CORREÇÃO
                 case 0: System.out.println("Voltando..."); break;
-                default: System.out.println("Opção inválida.");
+                default: System.out.println("Opçao inválida.");
             }
         } while (opcao != 0);
     }
@@ -51,16 +51,13 @@ public class TelaGerente {
 
     // Logica de criação de sessão.
     private void criarSessao() {
-        System.out.print("ID da sessão: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
+        
         System.out.print("Nome do filme: ");
         String nomeFilme = sc.nextLine();
         
         Filme filme = new Filme(nomeFilme, "Não definido", 120, "Livre"); 
 
-        System.out.print("Horário (dd/MM/yyyy HH:mm): ");
+        System.out.print("Horario (dd/MM/yyyy HH:mm): ");
         String horarioStr = sc.nextLine();
 
         
@@ -73,18 +70,18 @@ public class TelaGerente {
         int colunas = sc.nextInt();
 
         Sala sala = new Sala(linhas, colunas);
-        Sessao sessao = new Sessao(id, filme, horario, sala);
+        Sessao sessao = new Sessao(filme, horario, sala);
         service.adicionarSessao(sessao);
-        System.out.println("Sessão criada com sucesso.");
+        System.out.println("Sessao criada com sucesso.");
     }
 
     private void removerSessao() {
-        System.out.print("Digite o ID da sessão: ");
+        System.out.print("Digite o ID da sessao: ");
         int id = sc.nextInt();
         if (service.removerSessao(id)) {
-            System.out.println("Sessão removida.");
+            System.out.println("Sessao removida.");
         } else {
-            System.out.println("Sessão não encontrada.");
+            System.out.println("Sessao não encontrada.");
         }
     }
 }

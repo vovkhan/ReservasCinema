@@ -137,7 +137,7 @@ public class Atendimento {
     
     //logica de cancelamento do ingresso
     private void cancelarIngresso() {
-        System.out.print("ID da sessão: ");
+        System.out.print("ID da sessao: ");
         int id = sc.nextInt();
         System.out.print("Poltrona: ");
         String poltrona = sc.next().toUpperCase();
@@ -153,7 +153,7 @@ public class Atendimento {
     //Logia de exibição do mapa de poltronas da sessão selecionada, mostrando quais estão ocupadas e quais estão livres. Esta parte em espeficico não sera possivel fazer compra do ingresso, é um mecanismo de checagem apenas
     private void mostrarSala() {
         System.out.println(service.mostrarSessoes());
-        System.out.print("Digite o ID da sessão: ");
+        System.out.print("Digite o ID da sessao: ");
         int id = sc.nextInt();
 
         try {
@@ -167,7 +167,7 @@ public class Atendimento {
 
     // Lógica para mostrar quantos ingressos foram vendidos para a sessão selecionada, utilizando o método ingressosVendidos
     private void ingressosVendidos() {
-        System.out.print("ID da sessão: ");
+        System.out.print("ID da sessao: ");
         int id = sc.nextInt();
         try {
             Sessao sessao = service.buscarSessao(id);
@@ -180,7 +180,7 @@ public class Atendimento {
 
     //Logica de faturamento com cada sessão separada. O método faturamento da classe Sessao irá calcular o valor total arrecadado com a venda de ingressos para aquela sessão específica, somando o valor de cada ingresso vendido.
     private void faturamento() {
-        System.out.print("ID da sessão: ");
+        System.out.print("ID da sessao: ");
         int id = sc.nextInt();
         try {
             Sessao sessao = service.buscarSessao(id);
